@@ -15,3 +15,6 @@ def GraWRulete():
 
 Ruleta = GraWRulete() 
 print(Ruleta)
+
+##A teraz wprowadzilem jakies tam zmiany
+##i kurwa dobrze mi z tym 

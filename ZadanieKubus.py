@@ -8,15 +8,17 @@ def funkcja(a, b):
         x1 = a + d  
         x2 = b - d  
 
-        fx1 = x1**3 + (0.5 * x1)**2 - 4 * x1 - 1
-        fx2 = x2**3 + (0.5 * x2)**2 - 4 * x2 - 1
+        fx1 = (x1**3) + (0.5 * (x1**2)) - (4 * x1) - 1
+        fx2 = (x2**3) + (0.5 * (x2**2)) - (4 * x2) - 1
+
+        print(f"Wartosc FX1: {round(fx1, 3)}, FX2: {round(fx2, 3)}") 
 
         if fx1 > fx2: 
             b = x1 
-        elif fx2 > fx1: 
+        elif fx1 < fx2: 
             a = x2 
 
-    print(f"najmniejsza znaleziona wartość z ostatniej iteracji to punkt: {round(b, 3)}, {round(fx2, 5)}")
+    print(f"najmniejsza znaleziona wartość z ostatniej iteracji to punkt: {round(b, 5)}, {round(fx2, 5)}")
     return b, fx2
 
 Funkcja = funkcja(-0.5, 5.0) 

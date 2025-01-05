@@ -1,36 +1,32 @@
-def funkcja(a, b):
-    i = 0
-    phi = 0.62  # Stała złotego podziału (zaokrąglona)
-
-    while abs(b - a) > 0.05:  # Warunek zatrzymania
+def ZlotyPodzial(a, b, tol=0.05):  
+    k = 0.62 
+    d = k * (b - a)  
+    xL = b - d
+    xP = a + d
+    fx1 = (xL**3) + (0.5 * (xL**2)) - (4 * xL) - 1
+    fx2 = (xP**3) + (0.5 * (xP**2)) - (4 * xP) - 1
+    i = 0  
+    while abs(b - a) > tol: 
         i += 1
-        print(f"wykonanie: {i}\t")
-        print(f"wartosc {round(a, 3)}, {round(b, 3)}") 
-
-        # Obliczanie punktów złotego podziału
-        d = phi * (b - a)  
-        x1 = a + d  
-        x2 = b - d  
-
-        # Obliczanie wartości funkcji w punktach x1 i x2
-        fx1 = (x1**3) + (0.5 * (x1**2)) - (4 * x1) - 1
-        fx2 = (x2**3) + (0.5 * (x2**2)) - (4 * x2) - 1
-
-        print(f"Wartosc FX1: {round(fx1, 3)}, FX2: {round(fx2, 3)}") 
-
-        # Aktualizacja przedziału
-        if fx1 > fx2: 
-            b = x1  # Zawężamy przedział od prawej strony
+        print(f"Iteracja nr: {i}")
+        
+        if fx1 < fx2: 
+            b, xP, fx2 = xP, xL, fx1
+            d = k * (b - a)  
+            xL = b - d
+            fx1 = (xL**3) + (0.5 * (xL**2)) - (4 * xL) - 1
         else: 
-            a = x2  # Zawężamy przedział od lewej strony
+            a, xL, fx1 = xL, xP, fx2
+            d = k * (b - a)  
+            xP = a + d
+            fx2 = (xP**3) + (0.5 * (xP**2)) - (4 * xP) - 1
 
-    # Obliczenie minimum
-    x_min = (a + b) / 2
-    f_min = (x_min**3) + (0.5 * (x_min**2)) - (4 * x_min) - 1
+        print(f"Wartosc xL wynosi: {xL}, a wartosc xP wynosi: {xP}")
+    
+    xmin = (a + b) / 2
+    f_min = (xmin**3) + (0.5 * (xmin**2)) - (4 * xmin) - 1
+    
+    return xmin, f_min
 
-    print(f"najmniejsza znaleziona wartość z ostatniej iteracji to punkt: {round(x_min, 5)}, {round(f_min, 5)}")
-    return x_min
-
-# Wywołanie funkcji
-Funkcja = funkcja(-0.5, 5.0)
+Funkcja = ZlotyPodzial(-0.5, 5.0, tol=0.05)
 print(Funkcja)

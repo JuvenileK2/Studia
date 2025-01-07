@@ -1,32 +1,32 @@
-def ZlotyPodzial(a, b, tol=0.05):  
-    k = 0.62 
-    d = k * (b - a)  
-    xL = b - d
-    xP = a + d
-    fx1 = (xL**3) + (0.5 * (xL**2)) - (4 * xL) - 1
-    fx2 = (xP**3) + (0.5 * (xP**2)) - (4 * xP) - 1
-    i = 0  
-    while abs(b - a) > tol: 
-        i += 1
-        print(f"Iteracja nr: {i}")
-        
-        if fx1 < fx2: 
-            b, xP, fx2 = xP, xL, fx1
-            d = k * (b - a)  
-            xL = b - d
-            fx1 = (xL**3) + (0.5 * (xL**2)) - (4 * xL) - 1
-        else: 
-            a, xL, fx1 = xL, xP, fx2
-            d = k * (b - a)  
-            xP = a + d
-            fx2 = (xP**3) + (0.5 * (xP**2)) - (4 * xP) - 1
+import math as sin 
 
-        print(f"Wartosc xL wynosi: {xL}, a wartosc xP wynosi: {xP}")
-    
-    xmin = (a + b) / 2
-    f_min = (xmin**3) + (0.5 * (xmin**2)) - (4 * xmin) - 1
-    
-    return xmin, f_min
+def f(x):
+    return x**3 + 0.5 * x**2 - 4 * x - 1 
 
-Funkcja = ZlotyPodzial(-0.5, 5.0, tol=0.05)
-print(Funkcja)
+def golden_section_search_table(f, a, b, tol):
+    phi = (1 + 5 ** 0.5) / 2
+    resphi = 2 - phi
+
+    xL = a + resphi * (b - a)
+    xP = b - resphi * (b - a)
+    f_xL = f(xL)
+    f_xP = f(xP)
+
+    while abs(b - a) > tol:
+        if f_xL < f_xP:
+            b, xP, f_xP = xP, xL, f_xL
+            xL = a + resphi * (b - a)
+            f_xL = f(xL)
+        else:
+            a, xL, f_xL = xL, xP, f_xP
+            xP = b - resphi * (b - a)
+            f_xP = f(xP)
+
+    x_min = (a + b) / 2
+    f_min = f(x_min)
+
+    return x_min, f_min
+
+tolerance = 0.05
+x_min, f_min = golden_section_search_table(f, 0.5, 5.0, tolerance)
+print(f"{x_min:.3f}, {f_min:.5f}")

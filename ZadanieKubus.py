@@ -1,32 +1,14 @@
-import math as sin 
+from math import sin
 
-def f(x):
-    return x**3 + 0.5 * x**2 - 4 * x - 1 
-
-def golden_section_search_table(f, a, b, tol):
-    phi = (1 + 5 ** 0.5) / 2
-    resphi = 2 - phi
-
-    xL = a + resphi * (b - a)
-    xP = b - resphi * (b - a)
-    f_xL = f(xL)
-    f_xP = f(xP)
-
+def golden_ratio(f, a, b, tol):
+    PHI = (1 + 5 ** 0.5) / 2
     while abs(b - a) > tol:
-        if f_xL < f_xP:
-            b, xP, f_xP = xP, xL, f_xL
-            xL = a + resphi * (b - a)
-            f_xL = f(xL)
-        else:
-            a, xL, f_xL = xL, xP, f_xP
-            xP = b - resphi * (b - a)
-            f_xP = f(xP)
+        xL, xP = a + (b - a) / PHI**2, b - (b - a) / PHI**2
+        if f(xL) < f(xP): 
+            b = xP
+        else: 
+            a = xL
+    return (a + b) / 2, f((a + b) / 2)
 
-    x_min = (a + b) / 2
-    f_min = f(x_min)
-
-    return x_min, f_min
-
-tolerance = 0.05
-x_min, f_min = golden_section_search_table(f, 0.5, 5.0, tolerance)
-print(f"{x_min:.3f}, {f_min:.5f}")
+xmin, fmin = golden_ratio(sin, -3.0, 0.5, 0.05)
+print(f"{xmin:.3f}, {fmin:.5f}")
